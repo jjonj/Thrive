@@ -87,6 +87,12 @@ set(BOOST_COMPONENTS
 
 find_package(Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED QUIET)
 
+##############
+# Find MyGUI #
+##############
+
+find_package(MyGUI REQUIRED QUIET)
+
 ###############
 # Google Test #
 ###############
