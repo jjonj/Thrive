@@ -53,7 +53,7 @@ Game::instance() {
 }
 
 
-Game::Game() 
+Game::Game()
   : m_impl(new Implementation())
 {
 }
