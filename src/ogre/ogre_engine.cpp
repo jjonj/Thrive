@@ -19,6 +19,8 @@
 #include <OISInputManager.h>
 #include <OISMouse.h>
 #include <stdlib.h>
+#include <MyGUI/MyGUI.h>
+#include <MyGUI/MyGUI_OgrePlatform.h>
 
 #include <iostream>
 
@@ -42,7 +44,7 @@ struct OgreEngine::Implementation : public Ogre::WindowEventListener {
 
     ~Implementation() {
         Ogre::WindowEventUtilities::removeWindowEventListener(
-            m_window, 
+            m_window,
             this
         );
     }
@@ -83,7 +85,7 @@ struct OgreEngine::Implementation : public Ogre::WindowEventListener {
         m_window->getCustomAttribute(HANDLE_NAME, &windowHandle);
         OIS::ParamList parameters;
         parameters.insert(std::make_pair(
-            HANDLE_NAME, 
+            HANDLE_NAME,
             boost::lexical_cast<std::string>(windowHandle)
         ));
         m_inputManager = OIS::InputManager::createInputSystem(parameters);
@@ -105,6 +107,16 @@ struct OgreEngine::Implementation : public Ogre::WindowEventListener {
         m_sceneManager = m_root->createSceneManager("DefaultSceneManager");
     }
 
+
+    void
+    setupGUI() {
+        MyGUI::OgrePlatform* mPlatform = new MyGUI::OgrePlatform();
+        mPlatform->initialise(m_window, m_sceneManager);
+        m_GUI = new MyGUI::Gui();
+        m_GUI->initialise();
+    }
+
+
     void
     shutdownInputManager() {
         if (not m_inputManager) {
@@ -114,7 +126,7 @@ struct OgreEngine::Implementation : public Ogre::WindowEventListener {
         m_inputManager = nullptr;
     }
 
-    bool 
+    bool
     windowClosing(
         Ogre::RenderWindow* window
     ) override {
@@ -135,6 +147,8 @@ struct OgreEngine::Implementation : public Ogre::WindowEventListener {
     std::shared_ptr<OgreViewportSystem> m_viewportSystem;
 
     Ogre::RenderWindow* m_window = nullptr;
+
+    MyGUI::Gui* m_GUI = nullptr;
 
 };
 
@@ -160,7 +174,7 @@ OgreEngine::init(
     m_impl->loadConfig();
     m_impl->m_window = m_impl->m_root->initialise(true, "Thrive");
     Ogre::WindowEventUtilities::addWindowEventListener(
-        m_impl->m_window, 
+        m_impl->m_window,
         m_impl.get()
     );
     // Set default mipmap level (NB some APIs ignore this)
@@ -246,6 +260,12 @@ OgreEngine::root() const {
 Ogre::SceneManager*
 OgreEngine::sceneManager() const {
     return m_impl->m_sceneManager;
+}
+
+
+MyGUI::Gui*
+    OgreEngine::GUI() const {
+    return m_impl->m_GUI;
 }
 
 

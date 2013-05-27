@@ -15,6 +15,10 @@ namespace OIS {
     class InputManager;
 }
 
+namespace MyGUI{
+    class Gui;
+}
+
 namespace thrive {
 
 class KeyboardSystem;
@@ -81,7 +85,7 @@ public:
     /**
     * @brief Shuts the engine down
     */
-    void 
+    void
     shutdown() override;
 
     /**
@@ -101,6 +105,13 @@ public:
     */
     Ogre::RenderWindow*
     window() const;
+
+    /**
+    * @brief The MyGUI GUI
+    */
+    MyGUI::Gui*
+    GUI() const;
+
 
 private:
 

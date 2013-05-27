@@ -79,7 +79,7 @@ OgreAddSceneNodeSystem::update(int) {
         m_impl->m_sceneNodes[entityId] = node;
         component->m_sceneNode = node;
     }
-    m_impl->m_entities.removedEntities().clear();
+    m_impl->m_entities.addedEntities().clear();
     added.clear();
 }
 
