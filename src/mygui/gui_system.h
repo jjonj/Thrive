@@ -5,9 +5,11 @@
 #include "engine/system.h"
 
 #include <memory>
-
+#include <MyGUI/MyGUI.h>
+#include <MyGUI/MyGUI_OgrePlatform.h>
 
 #include <iostream>
+
 
 namespace thrive {
 
@@ -20,20 +22,7 @@ class WidgetComponent : public Component {
 
 public:
 
-    struct Properties {
-    std::string type = "";
-    float top = 0;
-    float left = 0;
-    float width = 0;
-    float height = 0;
-    std::string skin = "";
-    bool visible = false;
-    float alpha = 100;
-    bool enabled = false;
-    MyGUI::Colour colour;
-    MyGUI::WidgetStyle style;
-
-    }
+    WidgetComponent(MyGUI::Widget*, MyGUI::Widget*);
 
     /**
     * @brief Lua bindings
@@ -51,10 +40,11 @@ public:
     *
     * Be careful to only use this in the graphics thread
     */
-    MyGUI::Widget* m_widget = nullptr;
+    //MyGUI::Widget* m_widget = nullptr;
+    MyGUI::Widget* m_parentWidget = nullptr;
 
-    RenderData<Properties>
-    m_properties;
+    RenderData<MyGUI::Widget*>
+    m_widget;
 };
 
 

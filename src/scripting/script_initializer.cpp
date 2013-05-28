@@ -14,6 +14,8 @@
 #include "ogre/viewport_system.h"
 #include "scripting/luabind.h"
 #include "scripting/on_update.h"
+#include "mygui/script_bindings.h"
+#include "mygui/gui_system.h"
 
 #include <forward_list>
 #include <iostream>
@@ -49,7 +51,10 @@ thrive::initializeLua(
         OgreSceneNodeComponent::luaBindings(),
         OgreViewport::luaBindings(),
         OgreViewportSystem::luaBindings(),
-        SkyPlaneComponent::luaBindings()
+        SkyPlaneComponent::luaBindings(),
+        // MyGUI Components
+        WidgetComponent::luaBindings(),
+        MyGUIBindings::luaBindings()
     ];
 }
 

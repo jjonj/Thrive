@@ -1,4 +1,4 @@
-#include "ogre/scene_node_system.h"
+#include "mygui/gui_system.h"
 
 #include "common/transform.h"
 #include "engine/component_registry.h"
@@ -10,13 +10,19 @@
 
 using namespace thrive;
 
+WidgetComponent::WidgetComponent(MyGUI::Widget* widget, MyGUI::Widget* parent){
+    m_widget.workingCopy() = widget;
+    //if (parent=!0)
+        m_parentWidget = parent;
+}
+
 luabind::scope
 WidgetComponent::luaBindings() {
     using namespace luabind;
     return class_<WidgetComponent, Component, std::shared_ptr<Component>>("WidgetComponent")
         .scope [
-            def("TYPE_NAME", &OgreSceneNodeComponent::TYPE_NAME),
-            def("TYPE_ID", &OgreSceneNodeComponent::TYPE_ID)
+            def("TYPE_NAME", &WidgetComponent::TYPE_NAME),
+            def("TYPE_ID", &WidgetComponent::TYPE_ID)
         ]
         //.def(constructor<>())
     ;
@@ -74,18 +80,18 @@ GUISystem::update(int) {
     for (const auto& entry : added) {
         EntityId entityId = entry.first;
         WidgetComponent* widgetComponent = std::get<0>(entry.second);
-        const auto& properties = widgetComponent->m_properties.stable();
-        widgetComponent->m_widget = m_impl->m_GUI->createWidgetRealT(
-            properties.type,properties.skin,properties.left,properties.top,
-            properties.width,properties.height,properties.align,properties.layer,properties.name);
-        m_impl->m_widgets[entityId] = std::move(widgetComponent->m_widget);
+        if (widgetComponent->m_parentWidget==0)
+            widgetComponent->m_widget.workingCopy()->attachToWidget(dynamic_cast<MyGUI::Widget*>(m_impl->m_GUI));
+        else
+            widgetComponent->m_widget.workingCopy()->attachToWidget(widgetComponent->m_parentWidget);
+        m_impl->m_widgets[entityId] = std::move(widgetComponent->m_widget.workingCopy());
 
     }
     m_impl->m_entities.addedEntities().clear();
     added.clear();
 
     for (EntityId entityId : m_impl->m_entities.removedEntities()) {
-        WidgetComponent* widget = m_impl->m_widgets[entityId].get();
+        MyGUI::Widget* widget = m_impl->m_widgets[entityId];
         m_impl->m_GUI->destroyChildWidget(widget);
         m_impl->m_widgets.erase(entityId);
     }
