@@ -19,8 +19,8 @@
 #include <OISInputManager.h>
 #include <OISMouse.h>
 #include <stdlib.h>
-#include <MyGUI/MyGUI.h>
-#include <MyGUI/MyGUI_OgrePlatform.h>
+#include <MyGUI.h>
+#include <MyGUI_OgrePlatform.h>
 
 #include <iostream>
 

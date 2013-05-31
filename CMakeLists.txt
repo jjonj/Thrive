@@ -142,6 +142,7 @@ add_subdirectory(
 
 include_directories(SYSTEM
     ${Boost_INCLUDE_DIRS}
+    ${MYGUI_INCLUDE_DIRS}
     ${OIS_INCLUDE_DIRS}
     ${OGRE_INCLUDE_DIRS}
 )
@@ -178,6 +179,7 @@ target_link_libraries(ThriveLib
     ${Boost_LIBRARIES}
     ${OGRE_LIBRARIES}
     ${OIS_LIBRARIES}
+    ${MYGUI_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
     luabind
 )

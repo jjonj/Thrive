@@ -2,8 +2,8 @@
 
 #include "scripting/luabind.h"
 
-#include <MyGUI/MyGUI.h>
-#include <MyGUI/MyGUI_OgrePlatform.h>
+#include <MyGUI.h>
+#include <MyGUI_OgrePlatform.h>
 
 using namespace luabind;
 using namespace MyGUI;
