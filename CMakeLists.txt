@@ -293,6 +293,17 @@ if(WIN32)
         ${Boost_LIBRARIES}
         DESTINATION bin
     )
+	
+	INSTALL(FILES
+		${MYGUI_LIBRARIES_REL}
+		DESTINATION bin
+	)
+	
+	INSTALL(FILES
+		${MYGUI_LIBRARIES_DBG}
+		DESTINATION bin
+	)
+	
 
     foreach(OGRE_PLUGIN ${OGRE_PLUGINS})
         # Release

@@ -20,23 +20,37 @@ include(FindPkgMacros)
 IF (WIN32) #Windows
     MESSAGE(STATUS "Looking for MyGUI")
     SET(MYGUISDK $ENV{MYGUI_HOME})
-    IF (MYGUISDK)
+    #IF (MYGUISDK)
         findpkg_begin("MYGUI")
         MESSAGE(STATUS "Using MyGUI in MyGUI SDK")
+		MESSAGE(STATUS ${MYGUI_LIB_DIR})
         STRING(REGEX REPLACE "[\\]" "/" MYGUISDK "${MYGUISDK}")
 		message("${MYGUISDK}")
 		
         find_path(MYGUI_INCLUDE_DIRS
                   MyGUI.h
-                  "${MYGUISDK}/MyGUIEngine/include"
-                  NO_DEFAULT_PATH)
+				  PATH_SUFFIXES MYGUI
+                  #"${MYGUISDK}/MyGUIEngine/include"
+                  #NO_DEFAULT_PATH
+				  )
 
         find_path(MYGUI_PLATFORM_INCLUDE_DIRS
                   MyGUI_OgrePlatform.h
-                  "${MYGUISDK}/Platforms/Ogre/OgrePlatform/include"
-                  NO_DEFAULT_PATH)
+				  PATH_SUFFIXES MYGUI
+                  #"${MYGUISDK}/Platforms/Ogre/OgrePlatform/include"
+                  #NO_DEFAULT_PATH
+				  )
 				  
         SET(MYGUI_LIB_DIR ${MYGUISDK}/lib ${MYGUISDK}/*/lib)
+		
+		find_file(MYGUI_LIBRARY_ENGINE
+				 NAMES libMyGUIEngine.dll
+				 PATH_SUFFIXES bin/Release)
+				 
+		find_file(MYGUI_LIBRARY_ENGINE_DBG
+				 NAMES libMyGUIEngine_d.dll
+				 PATH_SUFFIXES "" bin/Debug)
+				 		 
 		
 		find_library(MYGUI_LIBRARIES_REL
 				 NAMES MyGUIEngine MyGUI.OgrePlatform
@@ -75,7 +89,7 @@ IF (WIN32) #Windows
 
         MESSAGE("${MYGUI_LIBRARIES}")
         MESSAGE("${MYGUI_PLATFORM_LIBRARIES}")
-    ENDIF (MYGUISDK)
+    #ENDIF (MYGUISDK)
     IF (OGRESOURCE)
         MESSAGE(STATUS "Using MyGUI in OGRE dependencies")
         STRING(REGEX REPLACE "[\\]" "/" OGRESDK "${OGRESOURCE}" )
