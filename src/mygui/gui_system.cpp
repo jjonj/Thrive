@@ -24,7 +24,7 @@ WidgetComponent::luaBindings() {
             def("TYPE_NAME", &WidgetComponent::TYPE_NAME),
             def("TYPE_ID", &WidgetComponent::TYPE_ID)
         ]
-        .def(constructor<>())
+        .def(constructor<MyGUI::Widget*,MyGUI::Widget*>())
     ;
 }
 
