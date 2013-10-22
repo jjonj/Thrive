@@ -17,7 +17,6 @@ class Game {
 
 public:
 
-
     /**
     * @brief Singleton instance
     *
