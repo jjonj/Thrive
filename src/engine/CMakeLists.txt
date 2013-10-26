@@ -11,6 +11,7 @@ add_sources(
     ${CMAKE_CURRENT_SOURCE_DIR}/entity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/entity.h
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_filter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/entity_filter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_manager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/entity_manager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/saving.cpp
@@ -23,6 +24,8 @@ add_sources(
     ${CMAKE_CURRENT_SOURCE_DIR}/system.h
     ${CMAKE_CURRENT_SOURCE_DIR}/touchable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/touchable.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gamestate_system.h
+	${CMAKE_CURRENT_SOURCE_DIR}/gamestate_system.cpp
 )
 
 add_test_sources(
