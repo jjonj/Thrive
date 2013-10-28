@@ -44,6 +44,9 @@ struct EntityManager::Implementation {
 
     std::unordered_set<EntityId> m_volatileEntities;
 
+    std::unordered_map<ComponentGroup, EntityMap> m_filteredEntityMaps;
+    
+    
 };
 
 
@@ -85,6 +88,7 @@ EntityManager::clear() {
     m_impl->m_entitiesToRemove.clear();
     m_impl->m_namedIds.clear();
     m_impl->m_volatileEntities.clear();
+    m_impl->m_filteredEntityMaps.clear();
 }
 
 
@@ -215,6 +219,7 @@ EntityManager::restore(
     const StorageContainer& storage,
     const ComponentFactory& factory
 ) {
+/* needs reconsideration
     this->clear();
     // Current Id
     m_impl->m_currentId = storage.get<EntityId>("currentId");
@@ -252,7 +257,7 @@ EntityManager::restore(
     for (const auto& entry : entitiesToRemove) {
         EntityId entityId = entry.get<EntityId>("id");
         this->removeEntity(entityId);
-    }
+    }*/
 }
 
 
@@ -274,7 +279,8 @@ StorageContainer
 EntityManager::storage(
     const ComponentFactory& factory
 ) const {
-    StorageContainer storage;
+
+    StorageContainer storage; /*  Needs reconsideration
     // Current Id
     storage.set("currentId", m_impl->m_currentId);
     // Collections
@@ -328,8 +334,21 @@ EntityManager::storage(
         itemStorage.set("entityId", item.second);
         namedIds.append(std::move(itemStorage));
     }
-    storage.set("namedIds", std::move(namedIds));
+    storage.set("namedIds", std::move(namedIds));*/
     return storage;
 }
 
+EntityMap&
+EntityManager::getEntitiesFiltered(
+    ComponentGroup filter
+){
+    return m_filteredEntityMaps[filter];
+}
 
+void
+EntityManager::registerComponentGroup(
+    ComponentGroup entityFilter
+){
+    //Not 100% this is semantically correct.
+    m_filteredEntityMaps.insert(std::make_pair(entityFilter, std::unordered_map<EntityId, ComponentGroup>()));
+}
